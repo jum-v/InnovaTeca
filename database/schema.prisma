@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// --- Modelos baseados na imagem ---
+
+model Company {
+  id    String @id @default(uuid())
+  name  String
+  email String @unique
+  cnpj  String @unique
+
+  // Relations
+  contacts Contact[]
+
+  @@map("companies")
+}
+
+model University {
+  id    String @id @default(uuid())
+  name  String
+  email String @unique
+
+  // Relations
+  contacts     Contact[]
+  technologies Technology[]
+
+  @@map("universities")
+}
+
+model Technology {
+  id                String   @id @default(uuid())
+  title             String
+  industrial_sector String
+  description       String
+  excerpt           String
+  tags              String[]
+  created_at        DateTime @default(now())
+  university_id     String
+
+  // Relations
+  university University @relation(fields: [university_id], references: [id])
+
+  @@map("technologies")
+}
+
+model Contact {
+  id            BigInt @id @default(autoincrement())
+  message       String
+  company_id    String
+  university_id String
+
+  // Relations
+  company    Company    @relation(fields: [company_id], references: [id])
+  university University @relation(fields: [university_id], references: [id])
+
+  @@map("contacts")
+}
