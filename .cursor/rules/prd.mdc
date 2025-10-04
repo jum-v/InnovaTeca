@@ -37,35 +37,25 @@ O **TechMatch AI** é uma plataforma que conecta empresas em busca de soluções
 Este fluxo é projetado para capturar o interesse e converter um visitante em um usuário ativo de forma fluida.
 
 1. **Aterrissagem na Página Inicial:**
-
-   * O usuário chega e encontra dois pontos de interação principais:
-
-     * **(A) O Campo de Prompt:** Um convite claro para descrever uma necessidade ou desafio tecnológico.
-     * **(B) O Feed de Tecnologias:** Uma vitrine com as últimas inovações cadastradas (com mock data para MVP), permitindo a descoberta passiva.
-
+    - O usuário chega e encontra dois pontos de interação principais:
+        - **(A) O Campo de Prompt:** Um convite claro para descrever uma necessidade ou desafio tecnológico.
+        - **(B) O Feed de Tecnologias:** Uma vitrine com as últimas inovações cadastradas (com mock data para MVP), permitindo a descoberta passiva.
 2. **Primeira Interação (Gatilho de Engajamento):**
-
-   * O usuário digita sua "dor" ou desafio no campo de prompt (ex: *"preciso de um bioplástico mais resistente e barato"*).
-   * Ao clicar para buscar, a plataforma não mostra os resultados imediatamente. Em vez disso, aciona o **Modal de Login/Cadastro**.
-
+    - O usuário digita sua "dor" ou desafio no campo de prompt (ex: *"preciso de um bioplástico mais resistente e barato"*).
+    - Ao clicar para buscar, a plataforma não mostra os resultados imediatamente. Em vez disso, aciona o **Modal de Login/Cadastro**.
 3. **Conversão (Criação de Conta):**
-
-   * O modal informa que, para ver as tecnologias compatíveis, é preciso fazer parte da plataforma.
-   * O usuário clica em **"Cadastre-se"**.
-   * Ele é redirecionado para o **Formulário de Cadastro de Empresa**, onde preenche informações básicas (para MVP pode ser só **nome, email e senha**, com CNPJ e dados avançados opcionais).
-
+    - O modal informa que, para ver as tecnologias compatíveis, é preciso fazer parte da plataforma.
+    - O usuário clica em **"Cadastre-se"**.
+    - Ele é redirecionado para o **Formulário de Cadastro de Empresa**, onde preenche informações básicas (para MVP pode ser só **nome, email e senha**, com CNPJ e dados avançados opcionais).
 4. **Acesso e Busca (O "Matchmaking"):**
-
-   * Após o cadastro e login, o usuário é levado para o ambiente interno da plataforma.
-   * Sua busca original é executada automaticamente.
-   * Aparece a interface de resultados (ou Chatbot), listando as tecnologias com o maior **"Grau de Compatibilidade"**.
-
+    - Após o cadastro e login, o usuário é levado para o ambiente interno da plataforma.
+    - Ao tentar fazer a busca de novo o usuário é redirecionado para uma página de **     Chatbot,** listando as tecnologias com o maior **"Grau de Compatibilidade"**.
+    - A página de Chatbot também contém um prompt abaixo, caso o usuário queira iterar mais sobre a sua pesquisa.
 5. **Análise e Conexão:**
-
-   * O usuário clica em uma tecnologia de interesse para ver a **Página de Detalhes da Tecnologia**.
-   * Nesta página, ele encontra as informações-chave: resumo, TRL, descrição completa e a universidade responsável.
-   * Se estiver convencido, ele clica em **"Entrar em contato com a universidade"**, que abre um **formulário de interesse**.
-   * Esse formulário envia uma notificação/email diretamente para o NIT responsável pela tecnologia, iniciando a conexão.
+    - O usuário clica em uma tecnologia de interesse para ver a **Página de Detalhes da Tecnologia**.
+    - Nesta página, ele encontra as informações-chave: resumo, TRL, descrição completa e a universidade responsável.
+    - Se estiver convencido, ele clica em **"Entrar em contato com a universidade"**, que abre um **formulário de interesse**.
+    - Esse formulário envia uma notificação/email diretamente para o NIT responsável pela tecnologia, iniciando a conexão.
 
 ---
 
@@ -74,23 +64,25 @@ Este fluxo é projetado para capturar o interesse e converter um visitante em um
 Este fluxo é mais direto, focado em popular a plataforma com inovações.
 
 1. **Aterrissagem e Acesso:**
-
-   * Um representante do NIT chega à página inicial.
-   * Ele clica em **"Login"** ou **"Entrar"**, e em seguida na opção para **Cadastrar Universidade**.
-
+    - Um representante do NIT chega à página inicial.
+    - Ele clica em **"Login"** ou **"Entrar"**, e em seguida na opção para **Cadastrar Universidade**.
 2. **Cadastro Institucional:**
-
-   * Ele é direcionado ao **Formulário de Cadastro de Universidade**, onde preenche os dados institucionais básicos (Nome da universidade, email institucional, etc.).
-
+    - Ele é direcionado ao **Formulário de Cadastro de Universidade**, onde preenche os dados institucionais básicos (Nome da universidade, email institucional, etc.).
 3. **Cadastro de Tecnologia:**
-
-   * Após o login, o NIT pode **cadastrar uma nova tecnologia**.
-   * Ele preenche o **Formulário de Cadastro de Tecnologia** (título, resumo, descrição detalhada, TRL).
-   * Para apoiar, o sistema pode oferecer uma função de **IA que gera automaticamente um resumo em linguagem “business-friendly”**.
-
+    - Após o login, o NIT pode **cadastrar uma nova tecnologia**.
+    - Ele preenche o **Formulário de Cadastro de Tecnologia** (título, resumo, descrição detalhada, TRL).
+    - Para apoiar, o sistema pode oferecer uma função de **IA que gera automaticamente um resumo em linguagem “business-friendly”**.
 4. **Publicação:**
+    - A tecnologia cadastrada fica disponível na plataforma, visível no feed da página inicial e pronta para ser encontrada pela busca semântica das empresas.
 
-   * A tecnologia cadastrada fica disponível na plataforma, visível no feed da página inicial e pronta para ser encontrada pela busca semântica das empresas.
+---
+
+👉 Assim, o **MVP** fica mais enxuto e viável para 2 dias:
+
+- **Empresa**: descobre tecnologias via busca → contato direto com universidade.
+- **Universidade**: cadastra tecnologias → fica disponível no feed e na busca.
+
+Quer que eu formate isso em um **PRD enxuto do MVP revisado** (com user stories + critérios de aceitação) para já estar pronto para o hackathon?
 
 ---
 
@@ -140,11 +132,13 @@ Este fluxo é mais direto, focado em popular a plataforma com inovações.
 
 ## 8. Stack Técnica (sugestão para hackathon)
 
-* **Frontend:** Next.js + Tailwind.
+* **Frontend:** Next.js + Tailwind + Shadcn.
+* **Ícones:** Lucide.
 * **Backend/API:** Next.js API routes.
 * **Banco:** PostgreSQL (Supabase ou Neon).
 * **IA/Busca:** embeddings via OpenAI (`text-embedding-3-small`) + banco vetorial (Supabase pgvector).
 * **Framework de agente de IA:** Mastra AI.
+* **Provedor de LLm:** Mastra AI.
 * **Auth:** NextAuth.js (email/senha simples).
 * **Email:** Resend (para envio de interesse ao NIT).
 
