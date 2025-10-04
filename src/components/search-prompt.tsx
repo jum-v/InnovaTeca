@@ -20,7 +20,7 @@ export function SearchPrompt({ onSearch }: { onSearch: (query: string) => void }
                         if (e.key === "Enter" && value.trim()) onSearch(value.trim())
                     }}
                 />
-                <Button size="icon" variant="hero" aria-label="Buscar" onClick={() => value.trim() && onSearch(value.trim())}>
+                <Button size="icon" variant="hero" aria-label="Buscar" onClick={() => value.trim() && onSearch(value.trim())} className="cursor-pointer">
                     <ArrowRight className="h-5 w-5" />
                 </Button>
             </div>

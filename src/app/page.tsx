@@ -95,8 +95,8 @@ export default function Home() {
             <h2 className="mb-3 text-3xl font-bold md:text-4xl">Pronto para começar?</h2>
             <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">Junte-se a empresas e universidades que já usam o InnovaTeca.</p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button size="lg" variant="hero" onClick={() => setRegisterOpen(true)}>Começar agora</Button>
-              <Button size="lg" variant="outline" onClick={() => setLoginOpen(true)}>Já tenho conta</Button>
+              <Button size="lg" variant="hero" onClick={() => setRegisterOpen(true)} className="cursor-pointer">Começar agora</Button>
+              <Button size="lg" variant="outline" onClick={() => setLoginOpen(true)} className="cursor-pointer">Já tenho conta</Button>
             </div>
           </div>
         </section>
