@@ -73,7 +73,7 @@ const NewTechnologyPage = () => {
     <div className='min-h-screen bg-background'>
       <Header isLoggedIn={true} userType='university' />
 
-      <div className='container px-4 py-8 max-w-4xl'>
+      <div className='container mx-auto px-4 py-8 max-w-4xl'>
         <Button variant='ghost' onClick={() => router.back()} className='mb-6'>
           <ArrowLeft className='h-4 w-4' />
           Voltar
@@ -216,8 +216,8 @@ const NewTechnologyPage = () => {
                 </div>
                 {tags.length > 0 && (
                   <div className='flex flex-wrap gap-2 mt-3'>
-                    {tags.map((tag, index) => (
-                      <Badge key={index} variant='secondary' className='gap-1'>
+                    {tags.map((tag) => (
+                      <Badge key={tag} variant='secondary' className='gap-1'>
                         {tag}
                         <button
                           type='button'

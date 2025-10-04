@@ -28,9 +28,7 @@ export const Header = ({
           <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-hero shadow-md'>
             <Sparkles className='h-6 w-6 text-white' />
           </div>
-          <span className='text-xl font-bold bg-gradient-hero bg-clip-text text-transparent'>
-            TechMatch AI
-          </span>
+          <span className='text-xl font-bold text-gradient'>Innovatec</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -83,6 +81,7 @@ export const Header = ({
 
         {/* Mobile Menu Button */}
         <button
+          type='button'
           className='md:hidden p-2 text-foreground'
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >

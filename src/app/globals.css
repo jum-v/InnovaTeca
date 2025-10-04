@@ -60,7 +60,7 @@
     0px 8px 16px -4px hsl(0 0% 0% / 0.08), 0px 8px 10px -5px hsl(0 0% 0% / 0.08);
   --shadow-2xl: 0px 8px 16px -4px hsl(0 0% 0% / 0.2);
   --shadow-glow: 0 10px 40px -10px oklch(0.6869 0.1179 295.7538 / 0.3);
-  --gradient-hero: linear-gradient(135deg, oklch(0.6869 0.1179 295.7538) 0%, oklch(0.9376 0.026 321.9388) 100%);
+  --gradient-hero: linear-gradient(135deg, hsl(221 83% 53%) 0%, hsl(270 95% 75%) 100%);
   --gradient-card: linear-gradient(135deg, oklch(0.6869 0.1179 295.7538 / 0.05) 0%, oklch(0.9376 0.026 321.9388 / 0.05) 100%);
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --tracking-normal: 0em;
@@ -322,6 +322,51 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
+    /* Fallback for browsers that don't support background-clip: text */
+  }
+
+  .text-gradient-hero {
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-card {
+    background: var(--gradient-card);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Animated gradient text */
+  .text-gradient-animated {
+    background: linear-gradient(45deg,
+        oklch(0.6869 0.1179 295.7538),
+        oklch(0.9376 0.026 321.9388),
+        oklch(0.7874 0.1179 295.7538),
+        oklch(0.3858 0.0509 304.6383));
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    animation: gradientShift 3s ease-in-out infinite;
+  }
+
+  @keyframes gradientShift {
+
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
   }
 
   /* Animation utilities */
