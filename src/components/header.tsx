@@ -19,8 +19,8 @@ export const Header = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
-      <nav className='container flex h-16 items-center justify-between px-4'>
+    <header className='sticky top-0 z-50 w-full border-b flex justify-between items-center border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+      <nav className='flex h-16 items-center justify-between px-4 w-full px-10'>
         <Link
           href='/'
           className='flex items-center gap-2 transition-transform hover:scale-105'
@@ -28,7 +28,7 @@ export const Header = ({
           <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-hero shadow-md'>
             <Sparkles className='h-6 w-6 text-white' />
           </div>
-          <span className='text-xl font-bold text-gradient'>Innovatec</span>
+          <span className='text-xl font-bold text-gradient'>InnovaTeca</span>
         </Link>
 
         {/* Desktop Navigation */}

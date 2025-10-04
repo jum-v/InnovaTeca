@@ -2,11 +2,11 @@
 alwaysApply: true
 ---
 
-📄 **PRD – TechMatch AI (MVP Hackathon)**
+📄 **PRD – InnovaTeca (MVP Hackathon)**
 
 ## 1. Visão Geral
 
-O **TechMatch AI** é uma plataforma que conecta empresas em busca de soluções tecnológicas com universidades/NITs que possuem inovações licenciáveis. O MVP foca em:
+O **InnovaTeca** é uma plataforma que conecta empresas em busca de soluções tecnológicas com universidades/NITs que possuem inovações licenciáveis. O MVP foca em:
 
 * **Entrada da demanda empresarial** (descrição do problema ou dor).
 * **Busca semântica por tecnologias** cadastradas por universidades.
