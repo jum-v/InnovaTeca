@@ -33,6 +33,19 @@ export default function Home() {
     // router.push(type === "company" && searchQuery ? `/company/search?query=${encodeURIComponent(searchQuery)}` : `/${type}/dashboard`)
   }
 
+  // Adapters para os novos modais (onLogin / onRegister)
+  const handleLogin = (email: string, password: string, type: "company" | "university") => {
+    // Aqui você colocaria autenticação real. Por enquanto, apenas fecha e chama o fluxo de sucesso.
+    // console.log({ email, password, type })
+    handleAuthSuccess(type)
+  }
+
+  const handleRegister = (data: any, type: "company" | "university") => {
+    // Persistência real fica aqui. Por enquanto, simula sucesso.
+    // console.log({ data, type })
+    handleAuthSuccess(type)
+  }
+
 
   return (
     <div className="min-h-screen bg-background min-w-screen flex flex-col items-center justify-center">
@@ -101,8 +114,18 @@ export default function Home() {
           </div>
         </section>
 
-        <LoginModal open={loginOpen} onOpenChange={setLoginOpen} onSuccess={handleAuthSuccess} onGoToRegister={() => { setLoginOpen(false); setRegisterOpen(true) }} />
-        <RegisterModal open={registerOpen} onOpenChange={setRegisterOpen} onSuccess={handleAuthSuccess} onGoToLogin={() => { setRegisterOpen(false); setLoginOpen(true) }} />
+        <LoginModal
+          open={loginOpen}
+          onOpenChange={setLoginOpen}
+          onLogin={handleLogin}
+          onSwitchToRegister={() => { setLoginOpen(false); setRegisterOpen(true) }}
+        />
+        <RegisterModal
+          open={registerOpen}
+          onOpenChange={setRegisterOpen}
+          onRegister={handleRegister}
+          onSwitchToLogin={() => { setRegisterOpen(false); setLoginOpen(true) }}
+        />
       </div>
     </div>
   )
