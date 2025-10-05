@@ -9,7 +9,7 @@ import { toast } from 'sonner'
 
 function ChatContent() {
   const searchParams = useSearchParams()
-  const initialQuery = searchParams.get('query')
+  const initialQuery = searchParams?.get('query')
 
   return <AIChat initialQuery={initialQuery || undefined} />
 }
