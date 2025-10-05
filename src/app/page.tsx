@@ -155,29 +155,39 @@ export default function Home() {
 }
 
 function Feature({ icon, title, desc, tone }: { icon: React.ReactNode; title: string; desc: string; tone: "primary" | "secondary" | "accent" }) {
-  const gradients = {
-    primary: "bg-gradient-to-br from-primary/80 via-violet-400 to-primary/40",
-    secondary: "bg-gradient-to-br from-secondary/80 via-blue-400 to-secondary/40",
-    accent: "bg-gradient-to-br from-accent/80 via-pink-400 to-accent/40",
+  const styles = {
+    primary: {
+      bg: "bg-muted/50",
+      border: "border-border/50",
+      icon: "text-foreground",
+      hoverBg: "group-hover:bg-muted",
+      hoverBorder: "group-hover:border-border"
+    },
+    secondary: {
+      bg: "bg-info/10",
+      border: "border-info/20",
+      icon: "text-info",
+      hoverBg: "group-hover:bg-info/15",
+      hoverBorder: "group-hover:border-info/30"
+    },
+    accent: {
+      bg: "bg-success/10",
+      border: "border-success/20",
+      icon: "text-success",
+      hoverBg: "group-hover:bg-success/15",
+      hoverBorder: "group-hover:border-success/30"
+    }
   }
-  const borderColors = {
-    primary: "border-primary",
-    secondary: "border-secondary",
-    accent: "border-accent",
-  }
-  const shadowColors = {
-    primary: "shadow-primary/30",
-    secondary: "shadow-secondary/30",
-    accent: "shadow-accent/30",
-  }
-  const toneText = { primary: "text-secondary", secondary: "text-secondary", accent: "text-accent" }[tone]
+
+  const style = styles[tone]
+
   return (
-    <div className="flex flex-col items-center text-center">
-      <div className={`mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border-2 ${gradients[tone]} ${borderColors[tone]} shadow-lg ${shadowColors[tone]} transition-transform hover:scale-105 duration-200`}>
-        <div className={`${toneText}`}>{icon}</div>
+    <div className="flex flex-col items-center text-center group">
+      <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-xl border transition-all duration-200 group-hover:scale-105 ${style.bg} ${style.border} ${style.hoverBg} ${style.hoverBorder}`}>
+        <div className={style.icon}>{icon}</div>
       </div>
-      <h3 className="mb-1 text-lg font-semibold text-base md:text-lg drop-shadow-sm">{title}</h3>
-      <p className="text-sm text-muted-foreground px-2 md:px-0 max-w-[180px] md:max-w-none">{desc}</p>
+      <h3 className="mb-2 text-lg font-semibold">{title}</h3>
+      <p className="text-sm text-muted-foreground leading-relaxed px-2 md:px-0 max-w-[200px] md:max-w-none">{desc}</p>
     </div>
   )
 }

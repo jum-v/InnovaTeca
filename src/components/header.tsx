@@ -66,20 +66,15 @@ export const Header = ({
                 href={
                   userType === 'university'
                     ? '/university/dashboard'
+                    : userType === 'company'
+                    ? '/company/dashboard'
                     : '/'
                 }
               >
                 <Button variant='outline' size='sm'>
-                  {userType === 'university' ? 'Dashboard' : 'Início'}
+                  Dashboard
                 </Button>
               </Link>
-              {userType === 'university' && (
-                <Link href='/university/new-technology'>
-                  <Button variant='hero' size='sm'>
-                    Cadastrar Tecnologia
-                  </Button>
-                </Link>
-              )}
               <Button variant='ghost' size='sm' onClick={handleSignOut}>
                 <LogOut className='h-4 w-4 mr-2' />
                 Sair
@@ -100,53 +95,67 @@ export const Header = ({
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className='md:hidden border-t border-border/40 bg-background/95 backdrop-blur'>
-          <div className='container px-4 py-4 flex flex-col gap-3'>
-            <Link href='/como-funciona' className='text-sm font-medium text-foreground/80 py-2'>
+        <div className='md:hidden absolute top-16 left-0 right-0 border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95 shadow-lg'>
+          <div className='px-4 py-6 flex flex-col gap-4'>
+            <Link
+              href='/como-funciona'
+              className='text-sm font-medium text-foreground/80 hover:text-foreground transition-colors py-2 px-3 rounded-md hover:bg-accent'
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Como Funciona
             </Link>
 
             {!isLoggedIn ? (
-              <div className='flex flex-col gap-2 pt-2'>
+              <div className='flex flex-col gap-3 pt-2 border-t border-border/40'>
                 <Button
                   variant='ghost'
-                  size='sm'
-                  onClick={onLoginClick}
-                  className='w-full'
+                  size='default'
+                  onClick={() => {
+                    onLoginClick?.()
+                    setMobileMenuOpen(false)
+                  }}
+                  className='w-full justify-center'
                 >
                   Entrar
                 </Button>
                 <Button
                   variant='hero'
-                  size='sm'
-                  onClick={onRegisterClick}
-                  className='w-full'
+                  size='default'
+                  onClick={() => {
+                    onRegisterClick?.()
+                    setMobileMenuOpen(false)
+                  }}
+                  className='w-full justify-center'
                 >
                   Cadastrar
                 </Button>
               </div>
             ) : (
-              <div className='flex flex-col gap-2 pt-2'>
+              <div className='flex flex-col gap-3 pt-2 border-t border-border/40'>
                 <Link
                   href={
                     userType === 'university'
                       ? '/university/dashboard'
+                      : userType === 'company'
+                      ? '/company/dashboard'
                       : '/'
                   }
                   className='w-full'
+                  onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Button variant='outline' size='sm' className='w-full'>
-                    {userType === 'university' ? 'Dashboard' : 'Início'}
+                  <Button variant='outline' size='default' className='w-full justify-center'>
+                    Dashboard
                   </Button>
                 </Link>
-                {userType === 'university' && (
-                  <Link href='/university/new-technology' className='w-full'>
-                    <Button variant='hero' size='sm' className='w-full'>
-                      Cadastrar Tecnologia
-                    </Button>
-                  </Link>
-                )}
-                <Button variant='ghost' size='sm' className='w-full' onClick={handleSignOut}>
+                <Button
+                  variant='ghost'
+                  size='default'
+                  className='w-full justify-center text-destructive hover:text-destructive hover:bg-destructive/10'
+                  onClick={() => {
+                    handleSignOut()
+                    setMobileMenuOpen(false)
+                  }}
+                >
                   <LogOut className='h-4 w-4 mr-2' />
                   Sair
                 </Button>

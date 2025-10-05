@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
-import { Plus, LogOut, Edit, Trash2 } from 'lucide-react';
+import { Plus, LogOut, Edit, Trash2, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 
@@ -80,17 +81,35 @@ export function UniversityDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold">{universityData?.name}</h1>
-            <p className="text-sm text-muted-foreground">{universityData?.email}</p>
+      <header className='sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+        <nav className='flex h-16 items-center justify-between px-4 w-full px-10'>
+          <Link
+            href='/'
+            className='flex items-center gap-2 transition-transform hover:scale-105'
+          >
+            <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-hero shadow-md'>
+              <Sparkles className='h-6 w-6 text-white' />
+            </div>
+            <span className='text-xl font-bold text-gradient'>InnovaTeca</span>
+          </Link>
+
+          <div className='flex items-center gap-3'>
+            <Link href='/university/dashboard'>
+              <Button variant='outline' size='sm'>
+                Dashboard
+              </Button>
+            </Link>
+            <Link href='/university/new-technology'>
+              <Button variant='hero' size='sm'>
+                Cadastrar Tecnologia
+              </Button>
+            </Link>
+            <Button variant='ghost' size='sm' onClick={handleSignOut}>
+              <LogOut className='h-4 w-4 mr-2' />
+              Sair
+            </Button>
           </div>
-          <Button variant="outline" onClick={handleSignOut}>
-            <LogOut className="h-4 w-4 mr-2" />
-            Sair
-          </Button>
-        </div>
+        </nav>
       </header>
 
       <main className="container mx-auto px-4 py-8">
