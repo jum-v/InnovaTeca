@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Header } from "@/components/header"
 import { SearchPrompt } from "@/components/search-prompt"
 import { TechnologyCard } from "@/components/technology-card"
@@ -15,6 +16,7 @@ import { useAuth } from "@/contexts/auth-context"
 
 export default function Home() {
   const { user, userType } = useAuth()
+  const router = useRouter()
   const [loginOpen, setLoginOpen] = useState(false)
   const [registerOpen, setRegisterOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -47,9 +49,11 @@ export default function Home() {
     if (!user) {
       toast.info("Faça login para ver os resultados da sua busca")
       setLoginOpen(true)
+    } else if (userType === 'company') {
+      // Redirecionar para página de chat com query
+      router.push(`/company/chat?query=${encodeURIComponent(query)}`)
     } else {
-      // TODO: implementar busca
-      toast.success("Buscando: " + query)
+      toast.info("Busca por IA disponível apenas para empresas")
     }
   }
 

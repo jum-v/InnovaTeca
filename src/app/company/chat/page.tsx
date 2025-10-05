@@ -1,11 +1,18 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/contexts/auth-context'
 import { CompanyHeader } from '@/components/company-header'
 import { AIChat } from '@/components/ai-chat'
 import { toast } from 'sonner'
+
+function ChatContent() {
+  const searchParams = useSearchParams()
+  const initialQuery = searchParams.get('query')
+
+  return <AIChat initialQuery={initialQuery || undefined} />
+}
 
 export default function CompanyChatPage() {
   const { user, userType, loading } = useAuth()
@@ -46,7 +53,9 @@ export default function CompanyChatPage() {
         <div className='grid gap-6 lg:grid-cols-3'>
           {/* Chat Interface - 2 columns */}
           <div className='lg:col-span-2'>
-            <AIChat />
+            <Suspense fallback={<div className='flex items-center justify-center h-[600px]'>Carregando chat...</div>}>
+              <ChatContent />
+            </Suspense>
           </div>
 
           {/* Sidebar com dicas - 1 column */}

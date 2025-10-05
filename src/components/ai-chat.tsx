@@ -12,7 +12,11 @@ interface Message {
   content: string
 }
 
-export function AIChat() {
+interface AIChatProps {
+  initialQuery?: string
+}
+
+export function AIChat({ initialQuery }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
@@ -23,6 +27,7 @@ export function AIChat() {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const initialQueryProcessed = useRef(false)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -32,12 +37,21 @@ export function AIChat() {
     scrollToBottom()
   }, [messages])
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  // Processar query inicial (apenas uma vez)
+  useEffect(() => {
+    if (initialQuery && !initialQueryProcessed.current && messages.length === 1 && !isLoading) {
+      initialQueryProcessed.current = true
+      handleSubmit(null, initialQuery)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialQuery])
 
-    if (!input.trim() || isLoading) return
+  const handleSubmit = async (e: React.FormEvent | null, queryOverride?: string) => {
+    if (e) e.preventDefault()
 
-    const userMessage = input.trim()
+    const userMessage = queryOverride || input.trim()
+    if (!userMessage || isLoading) return
+
     setInput('')
     setIsLoading(true)
 
