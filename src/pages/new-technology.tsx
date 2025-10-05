@@ -24,9 +24,11 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/contexts/auth-context'
 
 const NewTechnologyPage = () => {
   const router = useRouter()
+  const { user, userType } = useAuth()
   const [formData, setFormData] = useState({
     title: '',
     summary: '',
@@ -36,6 +38,7 @@ const NewTechnologyPage = () => {
   const [tags, setTags] = useState<string[]>([])
   const [currentTag, setCurrentTag] = useState('')
   const [isGeneratingAI, setIsGeneratingAI] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -63,15 +66,42 @@ const NewTechnologyPage = () => {
     }, 2000)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    toast.success('Tecnologia cadastrada com sucesso!')
-    router.push('/university/dashboard')
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/technologies', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: formData.title,
+          excerpt: formData.summary,
+          description: formData.description,
+          trl: formData.trl || null,
+          tags: tags,
+          industrial_sector: null,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao cadastrar tecnologia')
+      }
+
+      toast.success('Tecnologia cadastrada com sucesso!')
+      router.push('/university/dashboard')
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao cadastrar tecnologia')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
     <div className='min-h-screen bg-background'>
-      <Header isLoggedIn={true} userType='university' />
+      <Header isLoggedIn={!!user} userType={userType || undefined} />
 
       <div className='container mx-auto px-4 py-8 max-w-4xl'>
         <Button variant='ghost' onClick={() => router.back()} className='mb-6'>
@@ -243,8 +273,8 @@ const NewTechnologyPage = () => {
             >
               Cancelar
             </Button>
-            <Button type='submit' variant='hero' className='flex-1'>
-              Cadastrar Tecnologia
+            <Button type='submit' variant='hero' className='flex-1' disabled={isSubmitting}>
+              {isSubmitting ? 'Cadastrando...' : 'Cadastrar Tecnologia'}
             </Button>
           </div>
         </form>

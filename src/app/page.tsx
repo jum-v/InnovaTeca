@@ -1,56 +1,70 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Header } from "@/components/header"
 import { SearchPrompt } from "@/components/search-prompt"
 import { TechnologyCard } from "@/components/technology-card"
+import type { Technology } from "@/components/technology-card"
 import { LoginModal } from "@/components/login-modal"
 import { RegisterModal } from "@/components/register-modal"
-import { mockTechnologies } from "@/data/mock-technologies"
 import { Button } from "@/components/ui/button"
 import { Sparkles, Target, Zap, Users } from "lucide-react"
 import { toast } from "sonner"
+import { useAuth } from "@/contexts/auth-context"
 
 
 export default function Home() {
+  const { user, userType } = useAuth()
   const [loginOpen, setLoginOpen] = useState(false)
   const [registerOpen, setRegisterOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
+  const [technologies, setTechnologies] = useState<Technology[]>([])
+  const [isLoadingTech, setIsLoadingTech] = useState(true)
 
+
+  useEffect(() => {
+    fetchTechnologies()
+  }, [])
+
+  const fetchTechnologies = async () => {
+    try {
+      setIsLoadingTech(true)
+      const response = await fetch('/api/technologies')
+      const data = await response.json()
+
+      if (response.ok) {
+        setTechnologies(data.technologies)
+      }
+    } catch (error) {
+      console.error('Erro ao carregar tecnologias:', error)
+    } finally {
+      setIsLoadingTech(false)
+    }
+  }
 
   const handleSearch = (query: string) => {
     setSearchQuery(query)
-    toast.info("Faça login para ver os resultados da sua busca")
-    setLoginOpen(true)
+    if (!user) {
+      toast.info("Faça login para ver os resultados da sua busca")
+      setLoginOpen(true)
+    } else {
+      // TODO: implementar busca
+      toast.success("Buscando: " + query)
+    }
   }
 
 
-  const handleAuthSuccess = (type: "company" | "university") => {
-    toast.success("Bem-vindo! 🎉 (fluxo de navegação será plugado depois)")
-    setLoginOpen(false)
-    setRegisterOpen(false)
-    // Se houver busca pendente e for empresa, você pode redirecionar usando next/navigation quando a rota existir
-    // router.push(type === "company" && searchQuery ? `/company/search?query=${encodeURIComponent(searchQuery)}` : `/${type}/dashboard`)
-  }
-
-  // Adapters para os novos modais (onLogin / onRegister)
-  const handleLogin = (email: string, password: string, type: "company" | "university") => {
-    // Aqui você colocaria autenticação real. Por enquanto, apenas fecha e chama o fluxo de sucesso.
-    // console.log({ email, password, type })
-    handleAuthSuccess(type)
-  }
-
-  const handleRegister = (data: any, type: "company" | "university") => {
-    // Persistência real fica aqui. Por enquanto, simula sucesso.
-    // console.log({ data, type })
-    handleAuthSuccess(type)
-  }
 
 
   return (
     <div className="min-h-screen bg-background min-w-screen flex flex-col items-center justify-center">
       <div className="w-full">
-        <Header onLoginClick={() => setLoginOpen(true)} onRegisterClick={() => setRegisterOpen(true)} />
+        <Header
+          onLoginClick={() => setLoginOpen(true)}
+          onRegisterClick={() => setRegisterOpen(true)}
+          isLoggedIn={!!user}
+          userType={userType || undefined}
+        />
 
         {/* HERO */}
         <section className=" flex flex-col items-center justify-center relative overflow-hidden">
@@ -95,11 +109,22 @@ export default function Home() {
               <p className="text-muted-foreground">Inovações recentes cadastradas pelas universidades</p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {mockTechnologies.map((tech) => (
-                <TechnologyCard key={tech.id} technology={tech} onAskToContact={() => setLoginOpen(true)} />
-              ))}
-            </div>
+            {isLoadingTech ? (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">Carregando tecnologias...</p>
+              </div>
+            ) : technologies.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground mb-4">Nenhuma tecnologia cadastrada ainda.</p>
+                <p className="text-sm text-muted-foreground">Seja a primeira universidade a cadastrar uma inovação!</p>
+              </div>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {technologies.slice(0, 6).map((tech) => (
+                  <TechnologyCard key={tech.id} technology={tech} onAskToContact={() => setLoginOpen(true)} />
+                ))}
+              </div>
+            )}
           </div>
         </section>
         {/* CTA */}
@@ -117,13 +142,11 @@ export default function Home() {
         <LoginModal
           open={loginOpen}
           onOpenChange={setLoginOpen}
-          onLogin={handleLogin}
           onSwitchToRegister={() => { setLoginOpen(false); setRegisterOpen(true) }}
         />
         <RegisterModal
           open={registerOpen}
           onOpenChange={setRegisterOpen}
-          onRegister={handleRegister}
           onSwitchToLogin={() => { setRegisterOpen(false); setLoginOpen(true) }}
         />
       </div>

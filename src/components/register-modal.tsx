@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -11,15 +12,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Building2, GraduationCap } from "lucide-react";
+import { toast } from "sonner";
 
 interface RegisterModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onRegister: (data: any, type: 'company' | 'university') => void;
   onSwitchToLogin: () => void;
 }
 
-export const RegisterModal = ({ open, onOpenChange, onRegister, onSwitchToLogin }: RegisterModalProps) => {
+export const RegisterModal = ({ open, onOpenChange, onSwitchToLogin }: RegisterModalProps) => {
+  const router = useRouter();
   const [userType, setUserType] = useState<'company' | 'university'>('company');
   const [formData, setFormData] = useState({
     name: "",
@@ -27,10 +29,61 @@ export const RegisterModal = ({ open, onOpenChange, onRegister, onSwitchToLogin 
     password: "",
     cnpj: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onRegister(formData, userType);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, userType }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao criar conta');
+      }
+
+      toast.success('Conta criada com sucesso! Fazendo login...');
+      onOpenChange(false);
+
+      // Fazer login automaticamente após cadastro
+      const loginResponse = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          userType
+        }),
+      });
+
+      if (loginResponse.ok) {
+        // Redirecionar baseado no tipo de usuário
+        if (userType === 'university') {
+          router.push('/university/dashboard');
+        } else {
+          router.push('/');
+        }
+
+        // Recarregar para atualizar o contexto de autenticação
+        window.location.reload();
+      } else {
+        toast.info('Conta criada! Faça login para continuar.');
+        onSwitchToLogin();
+      }
+
+      // Limpar formulário
+      setFormData({ name: "", email: "", password: "", cnpj: "" });
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao criar conta');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -102,8 +155,8 @@ export const RegisterModal = ({ open, onOpenChange, onRegister, onSwitchToLogin 
                   required
                 />
               </div>
-              <Button type="submit" variant="hero" className="w-full">
-                Criar Conta
+              <Button type="submit" variant="hero" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Criando conta...' : 'Criar Conta'}
               </Button>
             </form>
           </TabsContent>
@@ -142,8 +195,8 @@ export const RegisterModal = ({ open, onOpenChange, onRegister, onSwitchToLogin 
                   required
                 />
               </div>
-              <Button type="submit" variant="hero" className="w-full">
-                Criar Conta
+              <Button type="submit" variant="hero" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Criando conta...' : 'Criar Conta'}
               </Button>
             </form>
           </TabsContent>

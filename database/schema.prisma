@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  directUrl = env("DATABASE_URL")
 }
 
 // --- Modelos baseados na imagem ---
@@ -37,9 +37,10 @@ model University {
 model Technology {
   id                String   @id @default(uuid())
   title             String
-  industrial_sector String
+  industrial_sector String?
   description       String
   excerpt           String
+  trl               String?
   tags              String[]
   created_at        DateTime @default(now())
   university_id     String

@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button'
-import { Sparkles, Menu } from 'lucide-react'
+import { Sparkles, Menu, LogOut } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useAuth } from '@/contexts/auth-context'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 interface HeaderProps {
   onLoginClick?: () => void
@@ -17,6 +20,14 @@ export const Header = ({
   userType,
 }: HeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { signOut } = useAuth()
+  const router = useRouter()
+
+  const handleSignOut = async () => {
+    await signOut()
+    toast.success('Logout realizado com sucesso!')
+    router.push('/')
+  }
 
   return (
     <header className='sticky top-0 z-50 w-full border-b flex justify-between items-center border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
@@ -34,13 +45,7 @@ export const Header = ({
         {/* Desktop Navigation */}
         <div className='hidden md:flex items-center gap-6'>
           <Link
-            href='/'
-            className='text-sm font-medium text-foreground/80 hover:text-foreground transition-colors'
-          >
-            Explorar Tecnologias
-          </Link>
-          <Link
-            href='/about'
+            href='/como-funciona'
             className='text-sm font-medium text-foreground/80 hover:text-foreground transition-colors'
           >
             Como Funciona
@@ -61,11 +66,11 @@ export const Header = ({
                 href={
                   userType === 'university'
                     ? '/university/dashboard'
-                    : '/company/dashboard'
+                    : '/'
                 }
               >
                 <Button variant='outline' size='sm'>
-                  Dashboard
+                  {userType === 'university' ? 'Dashboard' : 'Início'}
                 </Button>
               </Link>
               {userType === 'university' && (
@@ -75,6 +80,10 @@ export const Header = ({
                   </Button>
                 </Link>
               )}
+              <Button variant='ghost' size='sm' onClick={handleSignOut}>
+                <LogOut className='h-4 w-4 mr-2' />
+                Sair
+              </Button>
             </div>
           )}
         </div>
@@ -93,10 +102,7 @@ export const Header = ({
       {mobileMenuOpen && (
         <div className='md:hidden border-t border-border/40 bg-background/95 backdrop-blur'>
           <div className='container px-4 py-4 flex flex-col gap-3'>
-            <Link href='/' className='text-sm font-medium text-foreground/80 py-2'>
-              Explorar Tecnologias
-            </Link>
-            <Link href='/about' className='text-sm font-medium text-foreground/80 py-2'>
+            <Link href='/como-funciona' className='text-sm font-medium text-foreground/80 py-2'>
               Como Funciona
             </Link>
 
@@ -125,12 +131,12 @@ export const Header = ({
                   href={
                     userType === 'university'
                       ? '/university/dashboard'
-                      : '/company/dashboard'
+                      : '/'
                   }
                   className='w-full'
                 >
                   <Button variant='outline' size='sm' className='w-full'>
-                    Dashboard
+                    {userType === 'university' ? 'Dashboard' : 'Início'}
                   </Button>
                 </Link>
                 {userType === 'university' && (
@@ -140,6 +146,10 @@ export const Header = ({
                     </Button>
                   </Link>
                 )}
+                <Button variant='ghost' size='sm' className='w-full' onClick={handleSignOut}>
+                  <LogOut className='h-4 w-4 mr-2' />
+                  Sair
+                </Button>
               </div>
             )}
           </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -11,22 +12,55 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Building2, GraduationCap } from "lucide-react";
+import { toast } from "sonner";
 
 interface LoginModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onLogin: (email: string, password: string, type: 'company' | 'university') => void;
   onSwitchToRegister: () => void;
 }
 
-export const LoginModal = ({ open, onOpenChange, onLogin, onSwitchToRegister }: LoginModalProps) => {
+export const LoginModal = ({ open, onOpenChange, onSwitchToRegister }: LoginModalProps) => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState<'company' | 'university'>('company');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onLogin(email, password, userType);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, userType }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao fazer login');
+      }
+
+      toast.success('Login realizado com sucesso!');
+      onOpenChange(false);
+
+      // Redirecionar baseado no tipo de usuário
+      if (userType === 'university') {
+        router.push('/university/dashboard');
+      } else {
+        router.push('/');
+      }
+
+      // Recarregar para atualizar o contexto de autenticação
+      window.location.reload();
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao fazer login');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -75,8 +109,8 @@ export const LoginModal = ({ open, onOpenChange, onLogin, onSwitchToRegister }: 
                   required
                 />
               </div>
-              <Button type="submit" variant="hero" className="w-full">
-                Entrar
+              <Button type="submit" variant="hero" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Entrando...' : 'Entrar'}
               </Button>
             </form>
           </TabsContent>
@@ -105,8 +139,8 @@ export const LoginModal = ({ open, onOpenChange, onLogin, onSwitchToRegister }: 
                   required
                 />
               </div>
-              <Button type="submit" variant="hero" className="w-full">
-                Entrar
+              <Button type="submit" variant="hero" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Entrando...' : 'Entrar'}
               </Button>
             </form>
           </TabsContent>
