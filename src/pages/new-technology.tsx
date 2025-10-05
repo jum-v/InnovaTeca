@@ -290,4 +290,4 @@ const NewTechnologyPage = () => {
   )
 }
 
-export { NewTechnologyPage }
+export default NewTechnologyPage

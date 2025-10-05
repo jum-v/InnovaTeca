@@ -59,13 +59,16 @@ export default function TechnologyDetailPage() {
   })
 
   useEffect(() => {
-    fetchTechnology()
-    if (user && userType === 'company') {
-      fetchCompanyData()
+    if (params?.id) {
+      fetchTechnology()
+      if (user && userType === 'company') {
+        fetchCompanyData()
+      }
     }
-  }, [params.id, user, userType])
+  }, [params?.id, user, userType])
 
   const fetchTechnology = async () => {
+    if (!params?.id) return
     try {
       setIsLoading(true)
       const response = await fetch(`/api/technologies/${params.id}`)
@@ -86,6 +89,7 @@ export default function TechnologyDetailPage() {
   }
 
   const fetchCompanyData = async () => {
+    if (!params?.id) return
     try {
       const response = await fetch('/api/company/profile')
       const data = await response.json()
@@ -99,9 +103,11 @@ export default function TechnologyDetailPage() {
           company: data.company.name || '',
           message: '',
         })
+      } else {
+        toast.error('Erro ao carregar dados da empresa')
       }
     } catch (error) {
-      console.error('Erro ao carregar dados da empresa:', error)
+      toast.error('Erro ao carregar dados da empresa')
     }
   }
 
@@ -127,7 +133,7 @@ export default function TechnologyDetailPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          technology_id: params.id,
+          technology_id: params?.id || '',
           ...contactForm,
         }),
       })

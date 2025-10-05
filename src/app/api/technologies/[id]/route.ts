@@ -3,9 +3,10 @@ import { createSupabaseServerClient } from '@/lib/supabase-server'
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const supabase = createSupabaseServerClient()
 
     const { data: technology, error } = await supabase
@@ -20,7 +21,7 @@ export async function GET(
         created_at,
         university:universities(name, email)
       `)
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
 
     if (error) {

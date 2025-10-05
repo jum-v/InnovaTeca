@@ -163,3 +163,5 @@ export function UniversityDashboard() {
     </div>
   );
 }
+
+export default UniversityDashboard;

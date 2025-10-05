@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/lib/supabase-server';
-import { storeTechnologyAsEmbeddings } from '@/services/chat-service';
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,8 +54,6 @@ export async function POST(request: NextRequest) {
       console.error('Erro no banco:', dbError);
       throw dbError;
     }
-
-    await storeTechnologyAsEmbeddings(technology.id, technology)
 
 
     return NextResponse.json(
