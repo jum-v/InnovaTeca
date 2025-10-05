@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Send, Loader2, Bot, User } from 'lucide-react'
 import { toast } from 'sonner'
+import Markdown from 'markdown-to-jsx'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -114,7 +115,82 @@ export function AIChat() {
                   : 'bg-muted'
               }`}
             >
-              <p className='text-sm whitespace-pre-wrap'>{message.content}</p>
+              {message.role === 'user' ? (
+                <p className='text-sm whitespace-pre-wrap'>{message.content}</p>
+              ) : (
+                <div className='text-sm prose prose-sm max-w-none dark:prose-invert prose-p:my-2 prose-ul:my-2 prose-li:my-1 prose-headings:my-2'>
+                  <Markdown
+                    options={{
+                      overrides: {
+                        a: {
+                          component: 'a',
+                          props: {
+                            className: 'text-primary underline hover:text-primary/80',
+                            target: '_blank',
+                            rel: 'noopener noreferrer',
+                          },
+                        },
+                        ul: {
+                          component: 'ul',
+                          props: {
+                            className: 'list-disc list-inside space-y-1',
+                          },
+                        },
+                        ol: {
+                          component: 'ol',
+                          props: {
+                            className: 'list-decimal list-inside space-y-1',
+                          },
+                        },
+                        li: {
+                          component: 'li',
+                          props: {
+                            className: 'ml-2',
+                          },
+                        },
+                        h1: {
+                          component: 'h1',
+                          props: {
+                            className: 'text-lg font-bold mb-2',
+                          },
+                        },
+                        h2: {
+                          component: 'h2',
+                          props: {
+                            className: 'text-base font-semibold mb-2',
+                          },
+                        },
+                        h3: {
+                          component: 'h3',
+                          props: {
+                            className: 'text-sm font-semibold mb-1',
+                          },
+                        },
+                        strong: {
+                          component: 'strong',
+                          props: {
+                            className: 'font-semibold',
+                          },
+                        },
+                        code: {
+                          component: 'code',
+                          props: {
+                            className: 'bg-muted/50 px-1 py-0.5 rounded text-xs',
+                          },
+                        },
+                        pre: {
+                          component: 'pre',
+                          props: {
+                            className: 'bg-muted/50 p-2 rounded my-2 overflow-x-auto',
+                          },
+                        },
+                      },
+                    }}
+                  >
+                    {message.content}
+                  </Markdown>
+                </div>
+              )}
             </div>
             {message.role === 'user' && (
               <div className='flex h-8 w-8 items-center justify-center rounded-full bg-muted flex-shrink-0'>
