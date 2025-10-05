@@ -7,7 +7,7 @@ import { useState } from 'react'
 
 interface CompanyHeaderProps {
   onSignOut?: () => void
-  currentPage?: 'dashboard' | 'explore'
+  currentPage?: 'dashboard' | 'explore' | 'chat'
 }
 
 export const CompanyHeader = ({ onSignOut, currentPage = 'dashboard' }: CompanyHeaderProps) => {
@@ -47,8 +47,13 @@ export const CompanyHeader = ({ onSignOut, currentPage = 'dashboard' }: CompanyH
             </Button>
           </Link>
           <Link href='/company/explore'>
-            <Button variant={currentPage === 'explore' ? 'hero' : 'ghost'} size='sm'>
+            <Button variant={currentPage === 'explore' ? 'outline' : 'ghost'} size='sm'>
               Explorar
+            </Button>
+          </Link>
+          <Link href='/company/chat'>
+            <Button variant={currentPage === 'chat' ? 'hero' : 'ghost'} size='sm'>
+              Busca IA
             </Button>
           </Link>
           <Button variant='ghost' size='sm' onClick={handleSignOut}>
@@ -85,8 +90,17 @@ export const CompanyHeader = ({ onSignOut, currentPage = 'dashboard' }: CompanyH
               className='w-full'
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Button variant={currentPage === 'explore' ? 'hero' : 'ghost'} size='default' className='w-full justify-center'>
+              <Button variant={currentPage === 'explore' ? 'outline' : 'ghost'} size='default' className='w-full justify-center'>
                 Explorar
+              </Button>
+            </Link>
+            <Link
+              href='/company/chat'
+              className='w-full'
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Button variant={currentPage === 'chat' ? 'hero' : 'ghost'} size='default' className='w-full justify-center'>
+                Busca IA
               </Button>
             </Link>
             <div className='border-t border-border/40 pt-3'>
