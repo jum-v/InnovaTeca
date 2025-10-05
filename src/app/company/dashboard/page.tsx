@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
 import { Button } from '@/components/ui/button'
-import { Sparkles, LogOut } from 'lucide-react'
+import { CompanyHeader } from '@/components/company-header'
 
 export const metadata = {
   title: 'Dashboard da Empresa — InnovaTeca',
@@ -29,33 +29,7 @@ export default async function CompanyDashboardPage() {
 
   return (
     <main className="min-h-screen bg-background">
-      <header className='sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
-        <nav className='flex h-16 items-center justify-between px-4 w-full px-10'>
-          <Link
-            href='/'
-            className='flex items-center gap-2 transition-transform hover:scale-105'
-          >
-            <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-hero shadow-md'>
-              <Sparkles className='h-6 w-6 text-white' />
-            </div>
-            <span className='text-xl font-bold text-gradient'>InnovaTeca</span>
-          </Link>
-
-          <div className='flex items-center gap-3'>
-            <Link href='/'>
-              <Button variant='outline' size='sm'>
-                Início
-              </Button>
-            </Link>
-            <form action="/api/auth/signout" method="post">
-              <Button type="submit" variant='ghost' size='sm'>
-                <LogOut className='h-4 w-4 mr-2' />
-                Sair
-              </Button>
-            </form>
-          </div>
-        </nav>
-      </header>
+      <CompanyHeader currentPage="dashboard" />
 
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         <div className="mb-8">
@@ -81,7 +55,7 @@ export default async function CompanyDashboardPage() {
             <p className="text-sm text-muted-foreground mb-4">
               Explore a vitrine pública e favorite o que te interessar.
             </p>
-            <Link href="/">
+            <Link href="/company/explore">
               <Button variant="outline">Explorar vitrine</Button>
             </Link>
           </div>

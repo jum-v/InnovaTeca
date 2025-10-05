@@ -68,6 +68,13 @@ const NewTechnologyPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Validação do TRL
+    if (!formData.trl) {
+      toast.error('O nível TRL é obrigatório')
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -78,7 +85,7 @@ const NewTechnologyPage = () => {
           title: formData.title,
           excerpt: formData.summary,
           description: formData.description,
-          trl: formData.trl || null,
+          trl: formData.trl,
           tags: tags,
           industrial_sector: null,
         }),
@@ -192,7 +199,7 @@ const NewTechnologyPage = () => {
                   value={formData.trl}
                   onValueChange={(v) => handleChange('trl', v)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className={!formData.trl ? 'border-destructive' : ''}>
                     <SelectValue placeholder='Selecione o nível de maturidade' />
                   </SelectTrigger>
                   <SelectContent>

@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
 }
 
 // --- Modelos baseados na imagem ---
@@ -46,13 +46,14 @@ model Technology {
   university_id     String
 
   // Relations
-  university University @relation(fields: [university_id], references: [id])
+  university University            @relation(fields: [university_id], references: [id])
+  embeddings TechnologyEmbedding[]
 
   @@map("technologies")
 }
 
 model Contact {
-  id            BigInt @id @default(autoincrement())
+  id            String @id @default(uuid())
   message       String
   company_id    String
   university_id String
@@ -62,4 +63,16 @@ model Contact {
   university University @relation(fields: [university_id], references: [id])
 
   @@map("contacts")
+}
+
+model TechnologyEmbedding {
+  id            String @id @default(uuid())
+  technology_id String
+  chunk_content String
+  embedding     String
+
+  // Relations
+  technology Technology @relation(fields: [technology_id], references: [id])
+
+  @@map("technology_embeddings")
 }

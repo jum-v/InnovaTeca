@@ -75,10 +75,6 @@ export const Header = ({
                   Dashboard
                 </Button>
               </Link>
-              <Button variant='ghost' size='sm' onClick={handleSignOut}>
-                <LogOut className='h-4 w-4 mr-2' />
-                Sair
-              </Button>
             </div>
           )}
         </div>
@@ -147,18 +143,6 @@ export const Header = ({
                     Dashboard
                   </Button>
                 </Link>
-                <Button
-                  variant='ghost'
-                  size='default'
-                  className='w-full justify-center text-destructive hover:text-destructive hover:bg-destructive/10'
-                  onClick={() => {
-                    handleSignOut()
-                    setMobileMenuOpen(false)
-                  }}
-                >
-                  <LogOut className='h-4 w-4 mr-2' />
-                  Sair
-                </Button>
               </div>
             )}
           </div>
